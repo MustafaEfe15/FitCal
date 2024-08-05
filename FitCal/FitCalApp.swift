@@ -11,7 +11,8 @@ import SwiftUI
 struct FitCalApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            //ContentView()
+            AppInitialView()
         }
     }
 }
