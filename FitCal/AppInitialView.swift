@@ -69,7 +69,7 @@ struct AppInitialView: View {
                                     self.stage += 1
                                 }
                             }) {
-                                RectangleWithIcon(iconName: "arrow.forward", label: stage == 2 ? "Tamamla" : "Sonraki")
+                                RectangleWithIcon(iconName: "arrow.forward", label: stage == 2 ? "Hesapla" : "Sonraki")
                                 }
                         }
                         .padding(.horizontal)

@@ -14,6 +14,7 @@
 		E02608C12C669A1000CD3799 /* UserFormView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02608C02C669A1000CD3799 /* UserFormView2.swift */; };
 		E03ECABC2C63F46B00BEC8F4 /* UserFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03ECABB2C63F46B00BEC8F4 /* UserFormView.swift */; };
 		E097418D2C6151AF00BAA8C4 /* AppInitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */; };
+		E0BCEE7D2C6E7B0000554EBB /* AppLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BCEE7C2C6E7B0000554EBB /* AppLoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		E02608C02C669A1000CD3799 /* UserFormView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormView2.swift; sourceTree = "<group>"; };
 		E03ECABB2C63F46B00BEC8F4 /* UserFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormView.swift; sourceTree = "<group>"; };
 		E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInitialView.swift; sourceTree = "<group>"; };
+		E0BCEE7C2C6E7B0000554EBB /* AppLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */,
 				E03ECABB2C63F46B00BEC8F4 /* UserFormView.swift */,
 				E02608C02C669A1000CD3799 /* UserFormView2.swift */,
+				E0BCEE7C2C6E7B0000554EBB /* AppLoadingView.swift */,
 				E0198EAE2C6012A800D4BFA6 /* Assets.xcassets */,
 				E0198EB02C6012A800D4BFA6 /* Preview Content */,
 			);
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0198EAD2C6012A600D4BFA6 /* ContentView.swift in Sources */,
+				E0BCEE7D2C6E7B0000554EBB /* AppLoadingView.swift in Sources */,
 				E0198EAB2C6012A600D4BFA6 /* FitCalApp.swift in Sources */,
 				E097418D2C6151AF00BAA8C4 /* AppInitialView.swift in Sources */,
 				E02608C12C669A1000CD3799 /* UserFormView2.swift in Sources */,
