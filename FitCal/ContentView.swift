@@ -8,12 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var showLoadingPage = true
+    @State var isLoaded = false
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Develop Branch was created!")
+            if showLoadingPage && !isLoaded {
+                AppLoadingView(isLoaded: $isLoaded)
+            }
+            else {
+                Text("Val: \(self.showLoadingPage)")
+            }
         }
         .padding()
     }
