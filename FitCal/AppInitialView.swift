@@ -32,6 +32,8 @@ struct AppInitialView: View {
     @State var length: Double = 50
     @State var stage: Int = 0
     @State var lifeStyle = ""
+    @State var isFinish = false
+    @State var isLoading = false
     
     var body: some View {
         VStack {
@@ -58,18 +60,43 @@ struct AppInitialView: View {
                                     else {
                                         self.stage -= 1
                                     }
+                                    
+                                    self.isFinish = false
                                 }) {
                                     RectangleWithIcon(iconName: "arrow.backward", label: "Geri")
                                     }
                             }
                             
                             Button(action: {
-                                if stage >= 2 { self.stage = 2 }
+                                if stage >= 2 {
+                                    self.stage = 2
+                                    self.isFinish = true
+                                }
                                 else {
                                     self.stage += 1
                                 }
                             }) {
-                                RectangleWithIcon(iconName: "arrow.forward", label: stage == 2 ? "Hesapla" : "Sonraki")
+                                if isFinish {
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .frame(height: 50)
+                                        .foregroundColor(Color(hex: 0x6750A4, opacity: 1))
+                                        .overlay {
+                                            HStack {
+                                                Circle()
+                                                    .trim(from: 0, to: 0.25)
+                                                    .stroke(Color(.white), lineWidth: 2)
+                                                .frame(width: 25, height: 25)
+                                                .rotationEffect(Angle(degrees: isLoading ? 360 : 0))
+                                                .animation(.linear(duration: 0.8).delay(0).repeatForever(autoreverses: false), value: isLoading)
+                                                .onAppear() {
+                                                    self.isLoading = true
+                                                }
+                                            }
+                                        }
+                                }
+                                else {
+                                    RectangleWithIcon(iconName: "arrow.forward", label: stage == 2 ? "Tamamla" : "Sonraki")
+                                    }
                                 }
                         }
                         .padding(.horizontal)
