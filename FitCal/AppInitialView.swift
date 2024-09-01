@@ -62,6 +62,7 @@ struct AppInitialView: View {
                                     }
                                     
                                     self.isFinish = false
+                                    self.isLoading = false
                                 }) {
                                     RectangleWithIcon(iconName: "arrow.backward", label: "Geri")
                                     }
