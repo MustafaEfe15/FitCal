@@ -16,7 +16,7 @@ struct AppLoadingView: View {
     @State private var index = 0
     
     let captions = [
-        "Vücut bilgileriniz alınıyor...",
+        "Bilgileriniz kaydediliyor...",
         "Vücut kitle endeksiniz hesaplanıyor...",
         "Neredeyse bitti...",
         "İşte oldu"

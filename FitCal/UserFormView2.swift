@@ -7,6 +7,71 @@
 
 import SwiftUI
 
+protocol CustomSelectListProtocol {
+    var rawData: String {get}
+    var text: String {get}
+    var helpText: String? {get}
+}
+
+enum GenderType: String, CaseIterable, CustomSelectListProtocol {
+    case woman = "female"
+    case man = "male"
+    
+    /*init(type: String) {
+        switch type {
+        case "female": self = .woman
+        case "male: self = .man
+        }
+    }*/
+    
+    var rawData: String {
+        self.rawValue
+    }
+    
+    var text: String {
+        switch self {
+        case .woman: "Kadın"
+        case .man: "Erkek"
+        }
+    }
+    
+    var helpText: String? {
+        nil
+    }
+}
+
+enum LifeStyleType: String, CaseIterable, CustomSelectListProtocol {
+    case lf_segment1 = "lf_segment1"
+    case lf_segment2 = "lf_segment2"
+    case lf_segment3 = "lf_segment3"
+    case lf_segment4 = "lf_segment4"
+    case lf_segment5 = "lf_segment5"
+    
+    var rawData: String {
+        self.rawValue
+    }
+    
+    var text: String {
+        switch self {
+        case .lf_segment1: return "Sedanter"
+        case .lf_segment2: return "Az hareketli"
+        case .lf_segment3: return "Orta derece hareketli"
+        case .lf_segment4: return "Çok hareketli"
+        case .lf_segment5: return "Aşırı hareketli"
+        }
+    }
+    
+    var helpText: String? {
+        switch self {
+        case .lf_segment1: "Hareket etmiyorum veya çok az hareket ediyorum."
+        case .lf_segment2: "Hafif hareketli bir yaşam / Haftada 1-3 gün egzersiz yapıyorum."
+        case .lf_segment3: "Hareketli bir yaşam / Haftada 3-5 gün egzersiz yapıyorum."
+        case .lf_segment4: "Çok hareketli bir yaşam / Haftada 6-7 gün egzersiz yapıyorum."
+        case .lf_segment5: "Profesyonel sporcu, atlet seviyesi."
+        }
+    }
+}
+
 struct UserFormView2: View {
     
     // FORM ATTRIBUTES
@@ -21,42 +86,8 @@ struct UserFormView2: View {
     
     @Binding var stage: Int
     
-    var genderOptionImages = ["female", "male"]
-    var lifeStyleOptionImages = ["lf_segment1", "lf_segment2",  "lf_segment3",  "lf_segment4",  "lf_segment5"]
-    
-    var genderOptionDict = ["female": "Kadın", "male": "Erkek"]
-    var lifeStyleDict = [
-        "lf_segment1": "Sedanter",
-        "lf_segment2": "Az hareketli",
-        "lf_segment3": "Orta derece hareketli",
-        "lf_segment4": "Çok hareketli",
-        "lf_segment5": "Aşırı hareketli"
-    ]
-    
-    var helpTextDict = [
-        "lf_segment1": "Hareket etmiyorum veya çok az hareket ediyorum.",
-        "lf_segment2": "Hafif hareketli bir yaşam / Haftada 1-3 gün egzersiz yapıyorum.",
-        "lf_segment3": "Hareketli bir yaşam / Haftada 3-5 gün egzersiz yapıyorum.",
-        "lf_segment4": "Çok hareketli bir yaşam / Haftada 6-7 gün egzersiz yapıyorum.",
-        "lf_segment5": "Profesyonel sporcu, atlet seviyesi."
-    ]
-    
-    
-    
     var body: some View {
         VStack(alignment: .leading) {
-            
-            /*VStack(alignment: .leading) {
-                HStack {
-                    Image(systemName: "circle.fill")
-                    Image(systemName: "person")
-                    
-                    Spacer()
-                    
-                    Text("circle.fill")
-                }
-                .padding()
-            }*/
             
             VStack(alignment: .center) {
                 Text("Seni Tanıyalım")
@@ -96,7 +127,7 @@ struct UserFormView2: View {
                     CustomSliderView(label: "Yaşınız", maxValue: 75, step: 1, measure: "", iconName: "age", value: $age)
                         .padding(.bottom, 6)
                     
-                    CustomSelectList(iconName: "figure.dress.line.vertical.figure", label: "Cinsiyetiniz: ", options: genderOptionImages, labelDict: genderOptionDict, selectedValue: $gender)
+                    CustomSelectList(iconName: "figure.dress.line.vertical.figure", label: "Cinsiyetiniz: ", /*options: genderOptionImages, labelDict: genderOptionDict,*/options: GenderType.allCases, selectedValue: $gender)
                 }
                 else if stage == 1 {
                     Text("2. Vücut Bilgileri: ")
@@ -118,7 +149,7 @@ struct UserFormView2: View {
                         .foregroundStyle(Color(.black))
                         .padding(.bottom, 6)
                     
-                    CustomSelectList(iconName: "figure.disc.sports", label: "Günlük Hareketlilik Seviyeniz: ", options: lifeStyleOptionImages, labelDict: lifeStyleDict, helpTextDict: helpTextDict, selectedValue: $lifeStyle)
+                    CustomSelectList(iconName: "figure.disc.sports", label: "Günlük Hareketlilik Seviyeniz: ", /*options: lifeStyleOptionImages, labelDict: lifeStyleDict, helpTextDict: helpTextDict,*/options: LifeStyleType.allCases, selectedValue: $lifeStyle)
                 }
             }
             .padding()
@@ -177,9 +208,7 @@ struct CustomSelectList: View {
     
     @State var iconName: String
     @State var label: String
-    @State var options: [String]!
-    @State var labelDict: [String: String]!
-    @State var helpTextDict: [String: String]!
+    @State var options: [CustomSelectListProtocol]
     
     @Binding var selectedValue: String
     
@@ -196,45 +225,43 @@ struct CustomSelectList: View {
             .padding(.bottom)
             
             VStack(alignment: .center) {
-                ForEach(options, id: \.self) { option in
+                ForEach(options, id: \.text) { option in
                     HStack(alignment: .center) {
-                        Image(option)
+                        Image(option.rawData)
                             .optionModifier()
                         
                         VStack(alignment: .leading) {
-                            Text(labelDict[option]!)
+                            Text(option.text)
                                 .font(.system(.body, design: .rounded, weight: .semibold))
                                 .padding(.horizontal)
                             
-                            if helpTextDict != nil {
-                                if let hText = helpTextDict[option] {
-                                    Text(hText)
-                                        .font(.system(.caption, design: .rounded, weight: .medium))
-                                        .foregroundStyle(Color(.systemGray2))
-                                        .padding(.horizontal)
-                                        .padding(.top, 2)
-                                }
+                            if let hText = option.helpText {
+                                Text(hText)
+                                    .font(.system(.caption, design: .rounded, weight: .medium))
+                                    .foregroundStyle(Color(.systemGray2))
+                                    .padding(.horizontal)
+                                    .padding(.top, 2)
                             }
                         }
                         
-                        if helpTextDict != nil { Spacer() }
+                        if option.helpText != nil { Spacer() }
                     }
                     .padding()
                     .frame(maxWidth: .infinity)
                     .overlay(
                         HStack {
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(.secondary, lineWidth: selectedValue == option ? 4 : 2)
-                            .foregroundColor(Color(hex: selectedValue == option ?  0x6750A4 : 0xdee2ff))
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(.secondary, lineWidth: selectedValue == option.text ? 4 : 2)
+                                .foregroundColor(Color(hex: selectedValue == option.text ?  0x6750A4 : 0xdee2ff))
                         }
                     )
                     .onTapGesture {
-                        selectedValue = option
+                        selectedValue = option.text
                     }
                 }
             }
+            .padding()
         }
-        .padding()
     }
 }
 
