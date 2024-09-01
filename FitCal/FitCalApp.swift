@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct FitCalApp: App {
     
+    var userInfoStore = UserInfoStore()
+    
     var body: some Scene {
         WindowGroup {
-            //ContentView()
-            AppInitialView()
+            ContentView().environmentObject(self.userInfoStore)
         }
     }
 }

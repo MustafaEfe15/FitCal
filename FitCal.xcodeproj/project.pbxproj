@@ -11,9 +11,10 @@
 		E0198EAD2C6012A600D4BFA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0198EAC2C6012A600D4BFA6 /* ContentView.swift */; };
 		E0198EAF2C6012A800D4BFA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0198EAE2C6012A800D4BFA6 /* Assets.xcassets */; };
 		E0198EB22C6012A800D4BFA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0198EB12C6012A800D4BFA6 /* Preview Assets.xcassets */; };
-		E02608C12C669A1000CD3799 /* UserFormView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02608C02C669A1000CD3799 /* UserFormView2.swift */; };
-		E03ECABC2C63F46B00BEC8F4 /* UserFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03ECABB2C63F46B00BEC8F4 /* UserFormView.swift */; };
+		E02608C12C669A1000CD3799 /* UserFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02608C02C669A1000CD3799 /* UserFormView.swift */; };
+		E03ECABC2C63F46B00BEC8F4 /* UserFormViewWithSwiftForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03ECABB2C63F46B00BEC8F4 /* UserFormViewWithSwiftForm.swift */; };
 		E04E1EB02C8488210019EAFB /* UserInfoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E1EAF2C8488210019EAFB /* UserInfoStore.swift */; };
+		E04E1EB32C84DE810019EAFB /* ExtColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E1EB22C84DE810019EAFB /* ExtColor.swift */; };
 		E097418D2C6151AF00BAA8C4 /* AppInitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */; };
 		E0BCEE7F2C6E7C1500554EBB /* AppLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BCEE7E2C6E7C1500554EBB /* AppLoadingView.swift */; };
 /* End PBXBuildFile section */
@@ -24,9 +25,10 @@
 		E0198EAC2C6012A600D4BFA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E0198EAE2C6012A800D4BFA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E0198EB12C6012A800D4BFA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E02608C02C669A1000CD3799 /* UserFormView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormView2.swift; sourceTree = "<group>"; };
-		E03ECABB2C63F46B00BEC8F4 /* UserFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormView.swift; sourceTree = "<group>"; };
+		E02608C02C669A1000CD3799 /* UserFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormView.swift; sourceTree = "<group>"; };
+		E03ECABB2C63F46B00BEC8F4 /* UserFormViewWithSwiftForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFormViewWithSwiftForm.swift; sourceTree = "<group>"; };
 		E04E1EAF2C8488210019EAFB /* UserInfoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStore.swift; sourceTree = "<group>"; };
+		E04E1EB22C84DE810019EAFB /* ExtColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtColor.swift; sourceTree = "<group>"; };
 		E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInitialView.swift; sourceTree = "<group>"; };
 		E0BCEE7E2C6E7C1500554EBB /* AppLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,10 +66,11 @@
 				E0198EAA2C6012A600D4BFA6 /* FitCalApp.swift */,
 				E0198EAC2C6012A600D4BFA6 /* ContentView.swift */,
 				E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */,
-				E03ECABB2C63F46B00BEC8F4 /* UserFormView.swift */,
-				E02608C02C669A1000CD3799 /* UserFormView2.swift */,
+				E03ECABB2C63F46B00BEC8F4 /* UserFormViewWithSwiftForm.swift */,
+				E02608C02C669A1000CD3799 /* UserFormView.swift */,
 				E0BCEE7E2C6E7C1500554EBB /* AppLoadingView.swift */,
 				E04E1EAF2C8488210019EAFB /* UserInfoStore.swift */,
+				E04E1EB12C84DE5E0019EAFB /* Extensions */,
 				E0198EAE2C6012A800D4BFA6 /* Assets.xcassets */,
 				E0198EB02C6012A800D4BFA6 /* Preview Content */,
 			);
@@ -80,6 +83,14 @@
 				E0198EB12C6012A800D4BFA6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E04E1EB12C84DE5E0019EAFB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E04E1EB22C84DE810019EAFB /* ExtColor.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,12 +164,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0198EAD2C6012A600D4BFA6 /* ContentView.swift in Sources */,
+				E04E1EB32C84DE810019EAFB /* ExtColor.swift in Sources */,
 				E0BCEE7F2C6E7C1500554EBB /* AppLoadingView.swift in Sources */,
 				E04E1EB02C8488210019EAFB /* UserInfoStore.swift in Sources */,
 				E0198EAB2C6012A600D4BFA6 /* FitCalApp.swift in Sources */,
 				E097418D2C6151AF00BAA8C4 /* AppInitialView.swift in Sources */,
-				E02608C12C669A1000CD3799 /* UserFormView2.swift in Sources */,
-				E03ECABC2C63F46B00BEC8F4 /* UserFormView.swift in Sources */,
+				E02608C12C669A1000CD3799 /* UserFormView.swift in Sources */,
+				E03ECABC2C63F46B00BEC8F4 /* UserFormViewWithSwiftForm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

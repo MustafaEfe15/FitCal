@@ -1,132 +1,334 @@
 //
-//  UserFormView.swift
+//  UserFormView2.swift
 //  FitCal
 //
-//  Created by Mustafa Efe on 7.08.2024.
+//  Created by Mustafa Efe on 9.08.2024.
 //
 
 import SwiftUI
 
-struct UserFormView: View {
+protocol CustomSelectListProtocol {
+    var rawData: String {get}
+    var text: String {get}
+    var helpText: String? {get}
+    init(type: String)
+}
+
+enum GenderType: String, CaseIterable, CustomSelectListProtocol {
+    case woman = "female"
+    case man = "male"
     
-    @Binding var name: String
-    @Binding var lastname: String
-    @Binding var age: String
-    @Binding var gender: String
-    @Binding var muscleIntense: String?
+    init(type: String) {
+        switch type {
+        case "female": self = .woman
+        case "male": self = .man
+        default: self = .woman
+        }
+    }
     
-    @State var weight: Double = 50
-    @State var length: Double = 50
+    var rawData: String {
+        self.rawValue
+    }
     
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Seni Tanıyalım")
-                .font(.title)
-                .bold()
-                .padding()
-            
-            Form {
-                Section("Kişisel Bilgiler") {
-                    TextField("Adınız: ", text: $name)
-                        .font(.system(size: 20, weight: .semibold, design: .rounded))
-                    
-                    TextField("Soyadınız: ", text: $lastname)
-                        .font(.system(size: 20, weight: .semibold, design: .rounded))
-                    
-                    TextField("Yaşınız: ", text: $age)
-                        .font(.system(size: 20, weight: .semibold, design: .rounded))
-                
-                    VStack(alignment: .leading) {
-                        Text("Cinsiyetiniz: ")
-                            .font(.system(size: 20, weight: .semibold, design: .rounded))
-                            .foregroundStyle(Color(.systemGray3))
-                            .bold()
-                        
-                        HStack(spacing: 15) {
-                            Image("male")
-                                .resizable()
-                                .foregroundColor(.yellow)
-                                .frame(width: 50, height: 50)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(.secondary, lineWidth: gender == "male" ? 3 : 1)
-                                        .foregroundColor(gender == "male" ? .blue : .secondary)
-                                )
-                                .onTapGesture {
-                                    self.gender = "male"
-                                }
-                            
-                            Image("female")
-                                .resizable()
-                                .foregroundColor(.red)
-                                .frame(width: 50, height: 50)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(.secondary, lineWidth: gender == "female" ? 3 : 1)
-                                        .foregroundColor(gender == "female" ? .blue : .secondary)
-                                        
-                                )
-                                .onTapGesture {
-                                    self.gender = "female"
-                                }
-                        }
-                    }
-                }
-                
-                Section("Vücut Bilgileri") {
-                    HStack {
-                        VStack {
-                            Stepper {
-                                Text("Boyunuz: \(length.formatted()) cm" )
-                            } onIncrement: {
-                                self.length += 1
-                            } onDecrement: {
-                                self.length -= 1
-                            }
-                            .padding(5)
-                            
-                            Slider(
-                                value: $length,
-                                in: 0...250,
-                                step: 1
-                            )
-                        }
-                    }
-                    
-                    HStack {
-                        VStack {
-                            Stepper {
-                                Text("Kilonuz: \(weight.formatted()) kg" )
-                            } onIncrement: {
-                                self.weight += 1
-                            } onDecrement: {
-                                self.weight -= 1
-                            }
-                            .padding(5)
-                            
-                            Slider(
-                                value: $weight,
-                                in: 25...300,
-                                step: 1
-                            )
-                        }
-                    }
-                }
-            }
+    var text: String {
+        switch self {
+        case .woman: "Kadın"
+        case .man: "Erkek"
+        }
+    }
+    
+    var helpText: String? {
+        nil
+    }
+}
+
+enum LifeStyleType: String, CaseIterable, CustomSelectListProtocol {
+    case lf_segment1 = "lf_segment1"
+    case lf_segment2 = "lf_segment2"
+    case lf_segment3 = "lf_segment3"
+    case lf_segment4 = "lf_segment4"
+    case lf_segment5 = "lf_segment5"
+    
+    init(type: String) {
+        switch type {
+        case "lf_segment1": self = .lf_segment1
+        case "lf_segment2": self = .lf_segment2
+        case "lf_segment3": self = .lf_segment3
+        case "lf_segment4": self = .lf_segment4
+        case "lf_segment5": self = .lf_segment5
+        default: self = .lf_segment1
+        }
+    }
+    
+    var rawData: String {
+        self.rawValue
+    }
+    
+    var text: String {
+        switch self {
+        case .lf_segment1: return "Sedanter"
+        case .lf_segment2: return "Az hareketli"
+        case .lf_segment3: return "Orta derece hareketli"
+        case .lf_segment4: return "Çok hareketli"
+        case .lf_segment5: return "Aşırı hareketli"
+        }
+    }
+    
+    var helpText: String? {
+        switch self {
+        case .lf_segment1: "Hareket etmiyorum veya çok az hareket ediyorum."
+        case .lf_segment2: "Hafif hareketli bir yaşam / Haftada 1-3 gün egzersiz yapıyorum."
+        case .lf_segment3: "Hareketli bir yaşam / Haftada 3-5 gün egzersiz yapıyorum."
+        case .lf_segment4: "Çok hareketli bir yaşam / Haftada 6-7 gün egzersiz yapıyorum."
+        case .lf_segment5: "Profesyonel sporcu, atlet seviyesi."
+        }
+    }
+    
+    var caloriFactor: Double {
+        switch self {
+        case .lf_segment1: 1.2
+        case .lf_segment2: 1.3
+        case .lf_segment3: 1.4
+        case .lf_segment4: 1.5
+        case .lf_segment5: 1.6
         }
     }
 }
 
-
+struct UserFormView: View {
+    
+    // General Properties
+    @Binding var stage: Int
+    
+    // Personal Information
+    @Binding var name: String
+    @Binding var lastname: String
+    @Binding var age: Double
+    @Binding var gender: String
+    
+    // Body Information
+    @Binding var weight: Double
+    @Binding var length: Double
+    
+    // LifeStyle Information
+    @Binding var lifeStyle: String
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            
+            VStack(alignment: .center) {
+                Text("Seni Tanıyalım")
+                    .font(.title)
+                    .bold()
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal)
+            .padding(.top, 12)
+            
+            
+            HStack {
+                ForEach(0...2, id: \.self) { index in
+                    RoundedRectangle(cornerRadius: 10)
+                        .frame(height: 5)
+                        .foregroundStyle(Color(hex: index <= stage ? 0x6750A4 : 0xDEE2FF))
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top, 12)
+            .padding(.bottom, 24)
+            
+            // USER FORM
+            VStack(alignment: .leading) {
+                if stage == 0 {
+                    Text("1. Kişisel Bilgiler: ")
+                        .font(.body)
+                        .bold()
+                        .foregroundStyle(Color(.black))
+                        .padding(.bottom, 6)
+                    
+                    CustomTextField(value: $name, label: "İsminiz: ")
+                    CustomTextField(value: $lastname, label: "Soyisminiz: ")
+                        .padding(.bottom, 6)
+                    
+                    //person.badge.clock.fill
+                    CustomSliderView(label: "Yaşınız", maxValue: 75, step: 1, measure: "", iconName: "age", value: $age)
+                        .padding(.bottom, 6)
+                    
+                    CustomSelectList(iconName: "figure.dress.line.vertical.figure", label: "Cinsiyetiniz: ", options: GenderType.allCases, selectedValue: $gender)
+                }
+                else if stage == 1 {
+                    Text("2. Vücut Bilgileri: ")
+                        .font(.body)
+                        .bold()
+                        .foregroundStyle(Color(.black))
+                        .padding(.bottom, 6)
+                    
+                    CustomSliderView(label: "Boyunuz", maxValue: 250, step: 1, measure: "cm", iconName: "length", value: $length)
+                        .padding(.bottom, 24)
+                    
+                    CustomSliderView(label: "Kilonuz", maxValue: 250, step: 0.1, measure: "kg", iconName: "weight", value: $weight)
+                    
+                }
+                else if stage == 2 {
+                    Text("3. Yaşam Tarzı: ")
+                        .font(.body)
+                        .bold()
+                        .foregroundStyle(Color(.black))
+                        .padding(.bottom, 6)
+                    
+                    CustomSelectList(iconName: "figure.disc.sports", label: "Günlük Hareketlilik Seviyeniz: ", options: LifeStyleType.allCases, selectedValue: $lifeStyle)
+                }
+            }
+            .padding()
+        }
+    }
+}
 
 #Preview {
-    UserFormView(name: Binding<String>.constant(""),
-                 lastname: Binding<String>.constant(""),
-                 age: Binding<String>.constant(""),
-                 gender: Binding<String>.constant(""),
-                 muscleIntense: Binding<String?>.constant(""))
+    UserFormView(stage: .constant(0),
+                 name: .constant(""),
+                 lastname: .constant(""),
+                 age: .constant(25),
+                 gender: .constant(""),
+                 weight: .constant(50),
+                 length: .constant(50),
+                 lifeStyle: .constant("")
+    )
+}
+
+struct CustomTextField: View {
+    
+    @Binding var value: String
+    @State var label: String
+    @State var iconName = "person.circle"
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: iconName)
+                    .foregroundStyle(Color(.systemGray2))
+                TextField(label, text: $value)
+                    .font(.system(.body, design: .rounded, weight: .semibold))
+                    .foregroundStyle(Color(.black))
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .overlay {
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color(hex: 0xdee2ff), lineWidth: 2)
+            }
+            .padding(.bottom, 8)
+        }
+    }
+}
+
+extension Image {
+    func optionModifier() -> some View {
+        self
+            .resizable()
+            .frame(width: 50, height: 50)
+   }
+}
+
+struct CustomSelectList: View {
+    
+    @State var iconName: String
+    @State var label: String
+    @State var options: [CustomSelectListProtocol]
+    
+    @Binding var selectedValue: String
+    
+    var body: some View {
+        
+        VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: iconName)
+                    .foregroundColor(Color(.systemGray2))
+                Text(label)
+                    .font(.system(.body, design: .rounded, weight: .semibold))
+                    .foregroundColor(Color(.systemGray2))
+            }
+            .padding(.bottom)
+            
+            VStack(alignment: .center) {
+                ForEach(options, id: \.text) { option in
+                    HStack(alignment: .center) {
+                        Image(option.rawData)
+                            .optionModifier()
+                        
+                        VStack(alignment: .leading) {
+                            Text(option.text)
+                                .font(.system(.body, design: .rounded, weight: .semibold))
+                                .padding(.horizontal)
+                            
+                            if let hText = option.helpText {
+                                Text(hText)
+                                    .font(.system(.caption, design: .rounded, weight: .medium))
+                                    .foregroundStyle(Color(.systemGray2))
+                                    .padding(.horizontal)
+                                    .padding(.top, 2)
+                            }
+                        }
+                        
+                        if option.helpText != nil { Spacer() }
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .overlay(
+                        HStack {
+                            RoundedRectangle(cornerRadius: 15)
+                                .stroke(.secondary, lineWidth: selectedValue == option.rawData ? 4 : 2)
+                                .foregroundColor(Color(hex: selectedValue == option.rawData ?  0x6750A4 : 0xdee2ff))
+                        }
+                    )
+                    .onTapGesture {
+                        selectedValue = option.rawData
+                    }
+                }
+            }
+            .padding()
+        }
+    }
+}
+
+struct CustomSliderView: View {
+    
+    @State var label: String
+    @State var maxValue: Double
+    @State var step: Double
+    @State var measure: String
+    @State var iconName: String
+    @Binding var value: Double
+    
+    var body: some View {
+        HStack {
+            VStack {
+                Stepper {
+                    HStack {
+                        Image(iconName)
+                            .resizable()
+                            .foregroundColor(Color(.systemGray2))
+                            .tint(.blue)
+                            .frame(width: 20, height: 20)
+                            
+                        Text("\(label): \(value.formatted()) \(measure)" )
+                            .font(.system(.body, design: .rounded, weight: .semibold))
+                        .foregroundStyle(Color(.systemGray2))
+                    }
+                } onIncrement: {
+                    self.value += step
+                } onDecrement: {
+                    self.value -= step
+                }
+                
+                Slider(
+                    value: $value,
+                    in: 0...maxValue,
+                    step: step
+                )
+                .tint(Color(hex: 0x6750A4))
+            }
+        }
+        .padding(.horizontal)
+    }
 }

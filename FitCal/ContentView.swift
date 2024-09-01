@@ -9,11 +9,29 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @EnvironmentObject var userInfoStore: UserInfoStore
+    
     var body: some View {
-        Text("Hello World!")
+        Text("isActive: " + String(userInfoStore.isActive))
+        
+        if userInfoStore.isActive {
+            Text("Calori Req: \(self.userInfoStore.caloriRequirement)")
+            Button(action: {
+                self.doPassive()
+            }) { Text("Reset") }
+        }
+        else {
+            AppInitialView().environmentObject(userInfoStore)
+        }
+        
+    }
+        
+    
+    func doPassive() {
+        self.userInfoStore.isActive = false
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView().environmentObject(UserInfoStore())
 }

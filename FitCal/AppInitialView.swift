@@ -9,46 +9,44 @@
 
 import SwiftUI
 
-extension Color {
-    init(hex: Int, opacity: Double = 1.0) {
-        let red = Double((hex & 0xff0000) >> 16) / 255.0
-        let green = Double((hex & 0xff00) >> 8) / 255.0
-        let blue = Double((hex & 0xff) >> 0) / 255.0
-        self.init(.sRGB, red: red, green: green, blue: blue, opacity: opacity)
-    }
-}
-
 struct AppInitialView: View {
+ 
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
+    // General Properties
     @State var isSurveyBegin = false
-    @State var questionNumber = 0
-    
-    @State var name = ""
-    @State var lastname = ""
-    @State var gender = ""
-    @State var age: Double = 25
-    @State var muscleIntense: String?
-    @State var weight: Double = 50
-    @State var length: Double = 50
-    @State var stage: Int = 0
-    @State var lifeStyle = ""
-    @State var isFinish = false
+    @State var isBeginCalculation = false
     @State var isLoading = false
+    @State var stage: Int = 0
+    @State var caloriRequirement: Double = 0
+    
+    // Personal Information
+    @State var name = "Mustafa"
+    @State var lastname = "Efe"
+    @State var gender = "male"
+    @State var age: Double = 30
+    
+    // Body Information
+    @State var weight: Double = 84.5
+    @State var length: Double = 175
+    
+    // LifeStyle Information
+    @State var lifeStyle = ""
+
     
     var body: some View {
         VStack {
             if isSurveyBegin {
                 VStack {
                     ScrollView {
-                        UserFormView2(name: $name,
+                         UserFormView(stage: $stage,
+                                      name: $name,
                                       lastname: $lastname,
                                       age: $age,
                                       gender: $gender,
-                                      muscleIntense: $muscleIntense,
                                       weight: $weight,
                                       length: $length,
-                                      lifeStyle: $lifeStyle,
-                                      stage: $stage
+                                      lifeStyle: $lifeStyle
                         )
                     }
                     
@@ -61,7 +59,7 @@ struct AppInitialView: View {
                                         self.stage -= 1
                                     }
                                     
-                                    self.isFinish = false
+                                    self.isBeginCalculation = false
                                     self.isLoading = false
                                 }) {
                                     RectangleWithIcon(iconName: "arrow.backward", label: "Geri")
@@ -71,13 +69,14 @@ struct AppInitialView: View {
                             Button(action: {
                                 if stage >= 2 {
                                     self.stage = 2
-                                    self.isFinish = true
+                                    self.isBeginCalculation = true
+                                    self.calculateBodyEndex()
                                 }
                                 else {
                                     self.stage += 1
                                 }
                             }) {
-                                if isFinish {
+                                if isBeginCalculation {
                                     RoundedRectangle(cornerRadius: 15)
                                         .frame(height: 50)
                                         .foregroundColor(Color(hex: 0x6750A4, opacity: 1))
@@ -107,6 +106,37 @@ struct AppInitialView: View {
             }
             else {
                 StarterView(isSurveyBegin: $isSurveyBegin)
+            }
+        }
+    }
+    
+    /** ENDEX FORMUL:
+      - WOMAN: 
+        655 + 9,6 x ( weight ) + 1,8 x ( length ) - 4,7 x ( age )
+      - MAN
+        66 + 13,7 x ( weight ) + 5 x ( length ) - 6,8 x ( age )
+     */
+    func calculateBodyEndex() {
+        if gender == "female" {
+            self.caloriRequirement = (9.6 * weight) + (1.8 * length) - (4.7 * age) + 655
+        }
+        else {
+            self.caloriRequirement = (13.7 * weight) + (5 * length) - (6.8 * age) + 66
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            withAnimation(Animation.easeInOut(duration: 0.5)) {
+                self.isBeginCalculation = false
+                self.isLoading = false
+                
+                self.userInfoStore.name = self.name + self.lastname
+                self.userInfoStore.age = Int(self.age)
+                self.userInfoStore.gender = GenderType(type: self.gender)
+                self.userInfoStore.weight = self.weight
+                self.userInfoStore.length = self.length
+                self.userInfoStore.lifeStyle = LifeStyleType(type: self.lifeStyle)
+                self.userInfoStore.caloriRequirement = caloriRequirement * userInfoStore.lifeStyle.caloriFactor
+                self.userInfoStore.isActive = true
             }
         }
     }

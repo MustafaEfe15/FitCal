@@ -14,10 +14,11 @@ final class UserInfoStore: ObservableObject {
             "user.info.isActive": false,
             "user.info.name": "",
             "user.info.age": 0,
-            "user.info.gender": 0,
+            "user.info.gender": "female",
             "user.info.weight": 0,
             "user.info.length": 0,
-            "user.info.lifeStyle": 0
+            "user.info.lifeStyle": "lf_stage1",
+            "user.info.caloriRequirement": 0
         ])
     }
     
@@ -60,6 +61,12 @@ final class UserInfoStore: ObservableObject {
     @Published var lifeStyle: LifeStyleType = LifeStyleType(rawValue: UserDefaults.standard.string(forKey: "user.info.lifeStyle") ?? "lf_segment1")! {
         didSet {
             UserDefaults.standard.set(lifeStyle.rawValue, forKey: "user.info.lifeStyle")
+        }
+    }
+    
+    @Published var caloriRequirement: Double = (UserDefaults.standard.double(forKey: "user.info.caloriRequirement")) {
+        didSet {
+            UserDefaults.standard.set(caloriRequirement, forKey: "user.info.caloriRequirement")
         }
     }
 }
