@@ -9,22 +9,27 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var showLoadingPage = true
-    @State var isLoaded = false
+    @EnvironmentObject var userInfoStore: UserInfoStore
     
     var body: some View {
-        VStack {
-            if showLoadingPage && !isLoaded {
-                AppLoadingView(isLoaded: $isLoaded)
-            }
-            else {
-                Text("Val: \(self.showLoadingPage)")
-            }
+        if userInfoStore.isActive {
+            TableView()
+            Button(action: {
+                self.doPassive()
+            }) { Text("Reset") }
         }
-        .padding()
+        else {
+            AppInitialView().environmentObject(userInfoStore)
+        }
+        
+    }
+        
+    
+    func doPassive() {
+        self.userInfoStore.isActive = false
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView().environmentObject(UserInfoStore())
 }
