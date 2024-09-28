@@ -12,10 +12,8 @@ struct ContentView: View {
     @EnvironmentObject var userInfoStore: UserInfoStore
     
     var body: some View {
-        Text("isActive: " + String(userInfoStore.isActive))
-        
         if userInfoStore.isActive {
-            Text("Calori Req: \(self.userInfoStore.caloriRequirement)")
+            TableView()
             Button(action: {
                 self.doPassive()
             }) { Text("Reset") }

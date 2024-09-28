@@ -84,13 +84,14 @@ enum LifeStyleType: String, CaseIterable, CustomSelectListProtocol {
         }
     }
     
+    // values are getted nutrium.com
     var caloriFactor: Double {
         switch self {
         case .lf_segment1: 1.2
-        case .lf_segment2: 1.3
-        case .lf_segment3: 1.4
-        case .lf_segment4: 1.5
-        case .lf_segment5: 1.6
+        case .lf_segment2: 1.375
+        case .lf_segment3: 1.55
+        case .lf_segment4: 1.725
+        case .lf_segment5: 1.9
         }
     }
 }

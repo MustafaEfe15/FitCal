@@ -15,7 +15,7 @@ struct AppInitialView: View {
     
     // General Properties
     @State var isSurveyBegin = false
-    @State var isBeginCalculation = false
+    @State var calculationStatus = "not started"
     @State var isLoading = false
     @State var stage: Int = 0
     @State var caloriRequirement: Double = 0
@@ -31,7 +31,7 @@ struct AppInitialView: View {
     @State var length: Double = 175
     
     // LifeStyle Information
-    @State var lifeStyle = ""
+    @State var lifeStyle = "lf_segment1"
 
     
     var body: some View {
@@ -50,59 +50,60 @@ struct AppInitialView: View {
                         )
                     }
                     
-                    VStack {
-                        HStack(alignment: .center) {
-                            if(stage > 0) {
-                                Button(action: {
-                                    if stage == 0 { self.stage = 0 }
-                                    else {
-                                        self.stage -= 1
-                                    }
-                                    
-                                    self.isBeginCalculation = false
-                                    self.isLoading = false
-                                }) {
-                                    RectangleWithIcon(iconName: "arrow.backward", label: "Geri")
-                                    }
-                            }
-                            
+                    HStack(alignment: .center) {
+                        if(stage > 0) {
                             Button(action: {
-                                if stage >= 2 {
-                                    self.stage = 2
-                                    self.isBeginCalculation = true
-                                    self.calculateBodyEndex()
-                                }
+                                if stage == 0 { self.stage = 0 }
                                 else {
-                                    self.stage += 1
+                                    self.stage -= 1
                                 }
+                                
+                                self.calculationStatus = "not started"
+                                self.isLoading = false
                             }) {
-                                if isBeginCalculation {
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .frame(height: 50)
-                                        .foregroundColor(Color(hex: 0x6750A4, opacity: 1))
-                                        .overlay {
-                                            HStack {
-                                                Circle()
-                                                    .trim(from: 0, to: 0.25)
-                                                    .stroke(Color(.white), lineWidth: 2)
-                                                .frame(width: 25, height: 25)
-                                                .rotationEffect(Angle(degrees: isLoading ? 360 : 0))
-                                                .animation(.linear(duration: 0.8).delay(0).repeatForever(autoreverses: false), value: isLoading)
-                                                .onAppear() {
-                                                    self.isLoading = true
-                                                }
+                                CustomButton(iconName: "arrow.backward", label: "Geri")
+                            }
+                        }
+                        
+                        Button(action: {
+                            if stage >= 2 {
+                                self.stage = 2
+                                self.calculationStatus = "started"
+                                self.calculateBodyEndex()
+                            }
+                            else {
+                                self.stage += 1
+                            }
+                        }) {
+                            if calculationStatus == "started" {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .frame(height: 50)
+                                    .foregroundColor(Color(hex: 0x6750A4, opacity: 1))
+                                    .overlay {
+                                        HStack {
+                                            Circle()
+                                                .trim(from: 0, to: 0.25)
+                                                .stroke(Color(.white), lineWidth: 2)
+                                            .frame(width: 25, height: 25)
+                                            .rotationEffect(Angle(degrees: isLoading ? 360 : 0))
+                                            .animation(.linear(duration: 0.8).delay(0).repeatForever(autoreverses: false), value: isLoading)
+                                            .onAppear() {
+                                                self.isLoading = true
                                             }
                                         }
-                                }
-                                else {
-                                    RectangleWithIcon(iconName: "arrow.forward", label: stage == 2 ? "Tamamla" : "Sonraki")
                                     }
+                            }
+                            else {
+                                CustomButton(iconName: "arrow.forward", label: stage == 2 ? "Tamamla" : "Sonraki")
                                 }
-                        }
-                        .padding(.horizontal)
+                            }
                     }
+                    .padding(.horizontal)
                 }
-                .frame(alignment: .bottom)
+            }
+            else if calculationStatus == "completed" {
+                CalculationResult()
+                    .environmentObject(userInfoStore)
             }
             else {
                 StarterView(isSurveyBegin: $isSurveyBegin)
@@ -115,6 +116,7 @@ struct AppInitialView: View {
         655 + 9,6 x ( weight ) + 1,8 x ( length ) - 4,7 x ( age )
       - MAN
         66 + 13,7 x ( weight ) + 5 x ( length ) - 6,8 x ( age )
+      - https://www.macfit.com/blog/beslenme/gunluk-makro-ve-mikro-besin-ihtiyaci-nasil-hesaplanir
      */
     func calculateBodyEndex() {
         if gender == "female" {
@@ -124,20 +126,32 @@ struct AppInitialView: View {
             self.caloriRequirement = (13.7 * weight) + (5 * length) - (6.8 * age) + 66
         }
         
+        caloriRequirement *= userInfoStore.lifeStyle.caloriFactor
+        
+        // divide 9 because one carbonhidrate is 9 kcal
+        let amountOfCarbs = Double(((self.caloriRequirement / 9) * 45) / 100)
+        
+        // divide 4 because one fat is 4 kcal
+        let amountOfFats = Double(((self.caloriRequirement / 4) * 25) / 100)
+        
+        // divide 4 because one protein is 4 kcal
+        let amountOfProteins = Double(((self.caloriRequirement / 4) * 30) / 100)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            withAnimation(Animation.easeInOut(duration: 0.5)) {
-                self.isBeginCalculation = false
-                self.isLoading = false
-                
-                self.userInfoStore.name = self.name + self.lastname
-                self.userInfoStore.age = Int(self.age)
-                self.userInfoStore.gender = GenderType(type: self.gender)
-                self.userInfoStore.weight = self.weight
-                self.userInfoStore.length = self.length
-                self.userInfoStore.lifeStyle = LifeStyleType(type: self.lifeStyle)
-                self.userInfoStore.caloriRequirement = caloriRequirement * userInfoStore.lifeStyle.caloriFactor
-                self.userInfoStore.isActive = true
-            }
+            self.calculationStatus = "completed"
+            self.isLoading = false
+            self.isSurveyBegin = false
+            
+            self.userInfoStore.name = self.name + self.lastname
+            self.userInfoStore.age = Int(self.age)
+            self.userInfoStore.gender = GenderType(type: self.gender)
+            self.userInfoStore.weight = self.weight
+            self.userInfoStore.length = self.length
+            self.userInfoStore.lifeStyle = LifeStyleType(type: self.lifeStyle)
+            self.userInfoStore.caloriRequirement = caloriRequirement
+            self.userInfoStore.carbs = amountOfCarbs
+            self.userInfoStore.fats = amountOfFats
+            self.userInfoStore.proteins = amountOfProteins
         }
     }
 }
@@ -196,13 +210,35 @@ struct StarterView: View {
     }
 }
 
-struct RectangleWithIcon: View {
+struct CustomButton: View {
     
     var iconName = ""
     var label = ""
     
     var body: some View {
-        RoundedRectangle(cornerRadius: 15)
+        HStack {
+            if label == "Geri" {
+                Image(systemName: iconName)
+                    .foregroundStyle(.white)
+                    .bold()
+            }
+            
+            Text(label)
+                
+            if label != "Geri" {
+                Image(systemName: iconName)
+                    .foregroundStyle(.white)
+                    .bold()
+            }
+        }
+        .padding()
+        .frame(minWidth: 0, maxWidth: .infinity)
+        .background(Color(hex: 0x6750A4, opacity: 1))
+        .foregroundStyle(.white)
+        .cornerRadius(10)
+        
+
+        /*RoundedRectangle(cornerRadius: 15)
             .frame(height: 50)
             .foregroundColor(Color(hex: 0x6750A4, opacity: 1))
             .overlay {
@@ -223,6 +259,6 @@ struct RectangleWithIcon: View {
                             .bold()
                     }
                 }
-            }
+            }*/
     }
 }

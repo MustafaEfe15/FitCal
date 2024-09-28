@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class UserInfoStore: ObservableObject {
+class UserInfoStore: ObservableObject {
     
     init() {
         UserDefaults.standard.register(defaults: [
@@ -17,8 +17,11 @@ final class UserInfoStore: ObservableObject {
             "user.info.gender": "female",
             "user.info.weight": 0,
             "user.info.length": 0,
-            "user.info.lifeStyle": "lf_stage1",
-            "user.info.caloriRequirement": 0
+            "user.info.lifeStyle": "lf_segment1",
+            "user.info.caloriRequirement": 0,
+            "user.info.carbs": 0,
+            "user.info.fats": 0,
+            "user.info.proteins": 0
         ])
     }
     
@@ -54,7 +57,7 @@ final class UserInfoStore: ObservableObject {
     
     @Published var length: Double = (UserDefaults.standard.double(forKey: "user.info.length")) {
         didSet {
-            UserDefaults.standard.set(weight, forKey: "user.info.length")
+            UserDefaults.standard.set(length, forKey: "user.info.length")
         }
     }
     
@@ -67,6 +70,24 @@ final class UserInfoStore: ObservableObject {
     @Published var caloriRequirement: Double = (UserDefaults.standard.double(forKey: "user.info.caloriRequirement")) {
         didSet {
             UserDefaults.standard.set(caloriRequirement, forKey: "user.info.caloriRequirement")
+        }
+    }
+    
+    @Published var carbs: Double = (UserDefaults.standard.double(forKey: "user.info.carbs")) {
+        didSet {
+            UserDefaults.standard.set(carbs, forKey: "user.info.carbs")
+        }
+    }
+    
+    @Published var fats: Double = (UserDefaults.standard.double(forKey: "user.info.fats")) {
+        didSet {
+            UserDefaults.standard.set(fats, forKey: "user.info.fats")
+        }
+    }
+    
+    @Published var proteins: Double = (UserDefaults.standard.double(forKey: "user.info.proteins")) {
+        didSet {
+            UserDefaults.standard.set(proteins, forKey: "user.info.proteins")
         }
     }
 }

@@ -17,6 +17,9 @@
 		E04E1EB32C84DE810019EAFB /* ExtColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04E1EB22C84DE810019EAFB /* ExtColor.swift */; };
 		E097418D2C6151AF00BAA8C4 /* AppInitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */; };
 		E0BCEE7F2C6E7C1500554EBB /* AppLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BCEE7E2C6E7C1500554EBB /* AppLoadingView.swift */; };
+		FBE655F42CA8302600B7C78D /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE655F32CA8302600B7C78D /* TableView.swift */; };
+		FBE655F72CA886AC00B7C78D /* DoubleFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE655F62CA886A200B7C78D /* DoubleFormatters.swift */; };
+		FBFDD1362CA7518500B7D68E /* CalculationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFDD1352CA7518500B7D68E /* CalculationResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +34,9 @@
 		E04E1EB22C84DE810019EAFB /* ExtColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtColor.swift; sourceTree = "<group>"; };
 		E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInitialView.swift; sourceTree = "<group>"; };
 		E0BCEE7E2C6E7C1500554EBB /* AppLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLoadingView.swift; sourceTree = "<group>"; };
+		FBE655F32CA8302600B7C78D /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
+		FBE655F62CA886A200B7C78D /* DoubleFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleFormatters.swift; sourceTree = "<group>"; };
+		FBFDD1352CA7518500B7D68E /* CalculationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,11 +72,14 @@
 				E0198EAA2C6012A600D4BFA6 /* FitCalApp.swift */,
 				E0198EAC2C6012A600D4BFA6 /* ContentView.swift */,
 				E097418C2C6151AF00BAA8C4 /* AppInitialView.swift */,
-				E03ECABB2C63F46B00BEC8F4 /* UserFormViewWithSwiftForm.swift */,
 				E02608C02C669A1000CD3799 /* UserFormView.swift */,
-				E0BCEE7E2C6E7C1500554EBB /* AppLoadingView.swift */,
-				E04E1EAF2C8488210019EAFB /* UserInfoStore.swift */,
+				FBFDD1352CA7518500B7D68E /* CalculationResult.swift */,
+				FBE655F32CA8302600B7C78D /* TableView.swift */,
+				FBFDD1322CA74FDC00B7D68E /* PersistencyLayer */,
 				E04E1EB12C84DE5E0019EAFB /* Extensions */,
+				FBFDD1302CA74F7900B7D68E /* Utilities */,
+				FBFDD1312CA74FBF00B7D68E /* AlternativeForm */,
+				FBE655F52CA8868200B7C78D /* Formatter */,
 				E0198EAE2C6012A800D4BFA6 /* Assets.xcassets */,
 				E0198EB02C6012A800D4BFA6 /* Preview Content */,
 			);
@@ -91,6 +100,38 @@
 				E04E1EB22C84DE810019EAFB /* ExtColor.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FBE655F52CA8868200B7C78D /* Formatter */ = {
+			isa = PBXGroup;
+			children = (
+				FBE655F62CA886A200B7C78D /* DoubleFormatters.swift */,
+			);
+			path = Formatter;
+			sourceTree = "<group>";
+		};
+		FBFDD1302CA74F7900B7D68E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E0BCEE7E2C6E7C1500554EBB /* AppLoadingView.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		FBFDD1312CA74FBF00B7D68E /* AlternativeForm */ = {
+			isa = PBXGroup;
+			children = (
+				E03ECABB2C63F46B00BEC8F4 /* UserFormViewWithSwiftForm.swift */,
+			);
+			path = AlternativeForm;
+			sourceTree = "<group>";
+		};
+		FBFDD1322CA74FDC00B7D68E /* PersistencyLayer */ = {
+			isa = PBXGroup;
+			children = (
+				E04E1EAF2C8488210019EAFB /* UserInfoStore.swift */,
+			);
+			path = PersistencyLayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,8 +205,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0198EAD2C6012A600D4BFA6 /* ContentView.swift in Sources */,
+				FBE655F42CA8302600B7C78D /* TableView.swift in Sources */,
 				E04E1EB32C84DE810019EAFB /* ExtColor.swift in Sources */,
 				E0BCEE7F2C6E7C1500554EBB /* AppLoadingView.swift in Sources */,
+				FBE655F72CA886AC00B7C78D /* DoubleFormatters.swift in Sources */,
+				FBFDD1362CA7518500B7D68E /* CalculationResult.swift in Sources */,
 				E04E1EB02C8488210019EAFB /* UserInfoStore.swift in Sources */,
 				E0198EAB2C6012A600D4BFA6 /* FitCalApp.swift in Sources */,
 				E097418D2C6151AF00BAA8C4 /* AppInitialView.swift in Sources */,
